@@ -4,7 +4,6 @@
     "outDir": "../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
-    "inlineSources": true,
     "types": []
   },
   "exclude": [
@@ -13,5 +12,8 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "../../node_modules/@onecx/angular-auth/auth.service.ts"
+  ]
 }

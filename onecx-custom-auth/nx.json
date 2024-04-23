@@ -1,29 +1,19 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s"
-    ],
-    "sharedGlobals": []
-  },
   "targetDefaults": {
-    "@angular-devkit/build-angular:browser": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": true
     },
-    
     "@nx/jest:jest": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js"
+      ],
       "options": {
         "passWithNoTests": true
       },
@@ -33,22 +23,41 @@
           "codeCoverage": true
         }
       }
+    },
+    "@nx/eslint:lint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json"
+      ],
+      "cache": true
     }
+  },
+  "workspaceLayout": {
+    "appsDir": "e2e",
+    "libsDir": "packages"
   },
   "generators": {
     "@nx/angular:application": {
-      "e2eTestRunner": "none",
-      "linter": "eslint",
       "style": "scss",
-      "unitTestRunner": "jest"
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
     "@nx/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest"
     },
     "@nx/angular:component": {
-      "style": "css"
+      "style": "scss"
     }
   },
-  "defaultProject": "onecx-custom-auth"
+  "useInferencePlugins": false,
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  }
 }
