@@ -1,1 +1,1 @@
-export * from './lib/my-custom-auth/my-custom-auth.component';
+export * from './lib/my-custom-auth-service';
