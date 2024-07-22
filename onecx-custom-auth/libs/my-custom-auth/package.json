@@ -4,9 +4,10 @@
   "peerDependencies": {
     "@onecx/angular-auth": "^4.16.0",
     "@onecx/angular-integration-interface": "^4.16.0",
-    "@onecx/integration-interface": "^4.16.0"
+    "@onecx/integration-interface": "^4.16.0",
+    "keycloak-angular": "^13.1.0"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "publishConfig": {
