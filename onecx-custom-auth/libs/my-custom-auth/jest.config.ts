@@ -2,7 +2,6 @@
 export default {
   displayName: 'my-custom-auth',
   preset: '../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../coverage/my-custom-auth',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

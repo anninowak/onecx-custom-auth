@@ -2,7 +2,6 @@
 export default {
   displayName: 'onecx-custom-auth',
   preset: './jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: './coverage/onecx-custom-auth',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
