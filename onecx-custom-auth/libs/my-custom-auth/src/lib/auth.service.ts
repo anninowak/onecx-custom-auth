@@ -1,13 +1,18 @@
-import { ConfigurationService } from '@onecx/angular-integration-interface';
-
 export interface AuthService {
-  init(): Promise<boolean>;
+  init(config?: Record<string, unknown>): Promise<boolean>;
 
   getHeaderValues(): Record<string, string>;
 
   logout(): void;
+
+  updateTokenIfNeeded(): Promise<boolean>;
 }
 
-export type AuthServiceFactory = (params: {
-  configService: ConfigurationService;
-}) => AuthService;
+export enum Injectables {
+  KEYCLOAK_AUTH_SERVICE = 'KEYCLOAK_AUTH_SERVICE',
+  CONFIG = 'CONFIG',
+}
+
+export type AuthServiceFactory = (
+  injectorFunction: (injectable: Injectables) => unknown
+) => AuthService;

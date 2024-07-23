@@ -1,24 +1,18 @@
-import { ConfigurationService } from '@onecx/angular-integration-interface';
-import { AuthService } from './auth.service';
-import { KeycloakAuthService } from './keycloak-auth.service';
-import { KeycloakConfig } from 'keycloak-js';
-import { KeycloakService } from 'keycloak-angular';
+import { AuthService, AuthServiceFactory, Injectables } from './auth.service';
 
-export class MyCustomAuthService
-  extends KeycloakAuthService
-  implements AuthService
-{
-  constructor(configService: ConfigurationService) {
-    super(new KeycloakService(), configService);
-  }
-  override async init(): Promise<boolean> {
+export class MyCustomAuthService implements AuthService {
+  constructor(
+    private keycloakAuthService: AuthService,
+    config: Record<string, string>
+  ) {}
+  async init(config?: Record<string, unknown> | undefined): Promise<boolean> {
     console.log('MyCustomAuthService: start init');
-    const value = await super.init();
+    const value = await this.keycloakAuthService.init(config);
     console.log('MyCustomAuthService: initResult', value);
     return value;
   }
-  override getHeaderValues(): Record<string, string> {
-    const headerValues = super.getHeaderValues();
+  getHeaderValues(): Record<string, string> {
+    const headerValues = this.keycloakAuthService.getHeaderValues();
     console.log(
       'HeaderValues: ' +
         headerValues +
@@ -26,22 +20,24 @@ export class MyCustomAuthService
     );
     return headerValues;
   }
-  override logout(): void {
+  logout(): void {
     console.log('Logout: This message derives from the MyCustomAuthLibrary');
-    super.logout();
+    this.keycloakAuthService.logout();
   }
-
-  override getValidKCConfig(): KeycloakConfig {
-    const config = super.getValidKCConfig();
+  updateTokenIfNeeded(): Promise<boolean> {
     console.log(
-      'Config: ' + config + 'This message derives from the MyCustomAuthLibrary'
+      'UpdateTokenIfNeeded: This message derives from the MyCustomAuthLibrary'
     );
-    return config;
+    return this.keycloakAuthService.updateTokenIfNeeded();
   }
 }
-
-export default function (params: {
-  configService: ConfigurationService;
-}): AuthService {
-  return new MyCustomAuthService(params.configService);
-}
+const factory: AuthServiceFactory = (
+  injectorFunction: (injectable: Injectables) => unknown
+) => {
+  const authService = injectorFunction(
+    Injectables.KEYCLOAK_AUTH_SERVICE
+  ) as AuthService;
+  const config = injectorFunction(Injectables.CONFIG) as Record<string, string>;
+  return new MyCustomAuthService(authService, config);
+};
+export default factory;
