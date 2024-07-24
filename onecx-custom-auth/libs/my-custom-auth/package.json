@@ -1,11 +1,6 @@
 {
   "name": "@onecx/my-custom-auth",
   "version": "4.16.0",
-  "peerDependencies": {
-    "@onecx/angular-auth": "^4.16.0",
-    "@onecx/angular-integration-interface": "^4.16.0",
-    "@onecx/integration-interface": "^4.16.0"
-  },
   "type": "commonjs",
   "publishConfig": {
     "access": "public"

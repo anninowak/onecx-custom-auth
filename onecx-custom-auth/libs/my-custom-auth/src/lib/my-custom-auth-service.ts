@@ -13,11 +13,6 @@ export class MyCustomAuthService implements AuthService {
   }
   getHeaderValues(): Record<string, string> {
     const headerValues = this.keycloakAuthService.getHeaderValues();
-    console.log(
-      'HeaderValues: ' +
-        headerValues +
-        'This message derives from the MyCustomAuthLibrary'
-    );
     return headerValues;
   }
   logout(): void {
@@ -25,9 +20,6 @@ export class MyCustomAuthService implements AuthService {
     this.keycloakAuthService.logout();
   }
   updateTokenIfNeeded(): Promise<boolean> {
-    console.log(
-      'UpdateTokenIfNeeded: This message derives from the MyCustomAuthLibrary'
-    );
     return this.keycloakAuthService.updateTokenIfNeeded();
   }
 }
